@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\mvthanh\\Desktop\\MISA.Web2021_01\\mf660-mvthanh\\MISA.CukCuk.Api\\MISA.CukCuk\\MISA.ApplicationCore\\MISA.ApplicationCore.csproj",
+      "projectUniqueName": "C:\\Users\\mvthanh\\Desktop\\MISA-Api\\MISA.CukCuk.Api\\MISA.CukCuk\\MISA.ApplicationCore\\MISA.ApplicationCore.csproj",
       "projectName": "MISA.ApplicationCore",
-      "projectPath": "C:\\Users\\mvthanh\\Desktop\\MISA.Web2021_01\\mf660-mvthanh\\MISA.CukCuk.Api\\MISA.CukCuk\\MISA.ApplicationCore\\MISA.ApplicationCore.csproj",
+      "projectPath": "C:\\Users\\mvthanh\\Desktop\\MISA-Api\\MISA.CukCuk.Api\\MISA.CukCuk\\MISA.ApplicationCore\\MISA.ApplicationCore.csproj",
       "packagesPath": "C:\\Users\\mvthanh\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\mvthanh\\Desktop\\MISA.Web2021_01\\mf660-mvthanh\\MISA.CukCuk.Api\\MISA.CukCuk\\MISA.ApplicationCore\\obj\\",
+      "outputPath": "C:\\Users\\mvthanh\\Desktop\\MISA-Api\\MISA.CukCuk.Api\\MISA.CukCuk\\MISA.ApplicationCore\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\mvthanh\\AppData\\Roaming\\NuGet\\NuGet.Config",

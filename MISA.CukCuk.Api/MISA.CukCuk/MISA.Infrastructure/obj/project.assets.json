@@ -5683,11 +5683,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\mvthanh\\Desktop\\MISA.Web2021_01\\mf660-mvthanh\\MISA.CukCuk.Api\\MISA.CukCuk\\MISA.Infrastructure\\MISA.Infrastructure.csproj",
+      "projectUniqueName": "C:\\Users\\mvthanh\\Desktop\\MISA-Api\\MISA.CukCuk.Api\\MISA.CukCuk\\MISA.Infrastructure\\MISA.Infrastructure.csproj",
       "projectName": "MISA.Infrastructure",
-      "projectPath": "C:\\Users\\mvthanh\\Desktop\\MISA.Web2021_01\\mf660-mvthanh\\MISA.CukCuk.Api\\MISA.CukCuk\\MISA.Infrastructure\\MISA.Infrastructure.csproj",
+      "projectPath": "C:\\Users\\mvthanh\\Desktop\\MISA-Api\\MISA.CukCuk.Api\\MISA.CukCuk\\MISA.Infrastructure\\MISA.Infrastructure.csproj",
       "packagesPath": "C:\\Users\\mvthanh\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\mvthanh\\Desktop\\MISA.Web2021_01\\mf660-mvthanh\\MISA.CukCuk.Api\\MISA.CukCuk\\MISA.Infrastructure\\obj\\",
+      "outputPath": "C:\\Users\\mvthanh\\Desktop\\MISA-Api\\MISA.CukCuk.Api\\MISA.CukCuk\\MISA.Infrastructure\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\mvthanh\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -5704,8 +5704,8 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "projectReferences": {
-            "C:\\Users\\mvthanh\\Desktop\\MISA.Web2021_01\\mf660-mvthanh\\MISA.CukCuk.Api\\MISA.CukCuk\\MISA.ApplicationCore\\MISA.ApplicationCore.csproj": {
-              "projectPath": "C:\\Users\\mvthanh\\Desktop\\MISA.Web2021_01\\mf660-mvthanh\\MISA.CukCuk.Api\\MISA.CukCuk\\MISA.ApplicationCore\\MISA.ApplicationCore.csproj"
+            "C:\\Users\\mvthanh\\Desktop\\MISA-Api\\MISA.CukCuk.Api\\MISA.CukCuk\\MISA.ApplicationCore\\MISA.ApplicationCore.csproj": {
+              "projectPath": "C:\\Users\\mvthanh\\Desktop\\MISA-Api\\MISA.CukCuk.Api\\MISA.CukCuk\\MISA.ApplicationCore\\MISA.ApplicationCore.csproj"
             }
           }
         }

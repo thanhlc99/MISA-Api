@@ -6,9 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MISA.ApplicationCore
+namespace MISA.ApplicationCore.Services
 {
-    public class CustomerService:ICustomerService
+    public class CustomerService : ICustomerService
     {
         #region declare
         ICustomerRepository _customerRepository;
