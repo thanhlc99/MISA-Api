@@ -21,10 +21,13 @@ namespace MISA.ApplicationCore.Models
         /// <summary>
         /// khóa chính
         /// </summary>
+        [PrimaryKey]
         public Guid CustomerId { get; set; }
         /// <summary>
         /// Mã khách hàng
         /// </summary>
+        [CheckDuplicate]
+        [Required]
         public string CustomerCode { get; set; }
         /// <summary>
         /// họ và tên đầy đủ

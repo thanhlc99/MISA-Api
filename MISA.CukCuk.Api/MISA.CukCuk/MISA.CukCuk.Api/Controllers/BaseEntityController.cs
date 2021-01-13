@@ -41,7 +41,7 @@ namespace MISA.CukCuk.Api.Controllers
         [HttpPost]
         public IActionResult Post(TEntity entity)
         {
-            var serviceResult =_baseService.Add(entity);
+            var serviceResult = _baseService.Add(entity);
             return Ok();
         }
 

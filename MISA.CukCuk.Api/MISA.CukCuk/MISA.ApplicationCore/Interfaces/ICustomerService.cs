@@ -6,16 +6,11 @@ using System.Text;
 
 namespace MISA.ApplicationCore.Interfaces
 {
-    public interface ICustomerService
+    public interface ICustomerService:IBaseService<Customer>
     {
-        IEnumerable<Customer> GetCustomers();
+        IEnumerable<Customer> GetCustomerPaging(int limit,int offset);
 
-        Customer GetCustomerById(Guid customerId);
+        IEnumerable<Customer> GetCustomerByDepartment(Guid departmentId);
 
-        ServiceResult AddCustomer(Customer customer);
-
-        ServiceResult UpdateCustomer(Customer customer);
-
-        ServiceResult DeleteCustomer(Guid customerId);
     }
 }

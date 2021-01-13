@@ -5,18 +5,14 @@ using System.Text;
 
 namespace MISA.ApplicationCore.Interfaces
 {
-    public interface ICustomerRepository
+    public interface ICustomerRepository:IBaseRepository<Customer>
     {
-        IEnumerable<Customer> GetCustomers();
-
-        Customer GetCustomerById(Guid customerId);
-
+        /// <summary>
+        /// Lấy thông tin khách hàng theo mã khách hàng
+        /// </summary>
+        /// <param name="customerCode"></param>
+        /// <returns></returns> 
         Customer GetCustomerByCode(string customerCode);
 
-        int AddCustomer(Customer customer);
-
-        int UpdateCustomer(Customer customer);
-
-        int DeleteCustomer(Guid customerId);
     }
 }

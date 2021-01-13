@@ -15,8 +15,8 @@ namespace MISA.Infrastructure.Repository
         #region declare
         IConfiguration _configuration;
         string _connectionString = string.Empty;
-        IDbConnection dbConnection = null;
-        string tableName;
+        protected IDbConnection dbConnection = null;
+        protected string tableName;
         #endregion
 
         #region constructor
@@ -55,7 +55,7 @@ namespace MISA.Infrastructure.Repository
         public TEntity GetEntityById(Guid entityId)
         {
             //khởi tạo commandText
-            var entitys = dbConnection.Query<TEntity>($"Proc_Get{tableName}ById", null, commandType: CommandType.StoredProcedure).FirstOrDefault();
+            var entitys = dbConnection.Query<TEntity>($"Proc_Get{tableName}ById", new { CustomerId = entityId.ToString()}, commandType: CommandType.StoredProcedure).FirstOrDefault();
             //trả về dữ liệu
             return entitys;
         }
@@ -86,6 +86,12 @@ namespace MISA.Infrastructure.Repository
                 }
             }
             return parameters;
+        }
+
+        public TEntity GetEntityByProperty(string propertyName, object propertyValue)
+        {
+            var entity = dbConnection.Query<TEntity>($"select * from {tableName} where {propertyName} = '{propertyValue}'",commandType:CommandType.Text).FirstOrDefault();
+            return entity;
         }
         #endregion
     }

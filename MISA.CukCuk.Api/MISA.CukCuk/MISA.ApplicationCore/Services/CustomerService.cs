@@ -8,85 +8,45 @@ using System.Text;
 
 namespace MISA.ApplicationCore.Services
 {
-    public class CustomerService : ICustomerService
+    public class CustomerService : BaseService<Customer>, ICustomerService
     {
-        #region declare
         ICustomerRepository _customerRepository;
-        #endregion
-
         #region constructor
-        public CustomerService(ICustomerRepository customerRepository)
+        public CustomerService(ICustomerRepository customerRepository):base(customerRepository)
         {
             _customerRepository = customerRepository;
         }
         #endregion
 
-        #region Method
+        //public override int Add(Customer entity)
+        //{
+        //    //validate thông tin
+        //    var isValid = true;
+        //    //check trùng mã khách hàng
+        //    var customerDuplicate = _customerRepository.GetCustomerByCode(entity.CustomerCode);
+        //    if(customerDuplicate!=null)
+        //    {
+        //        isValid = false;
+        //    }    
+        //    if(isValid)
+        //    {
+        //        var res = base.Add(entity);
+        //        return res;
+        //    }
+        //    else
+        //    {
+        //        return 0;
+        //    }
+        //}
 
-        public IEnumerable<Customer> GetCustomers()
-        {
-            var customers = _customerRepository.GetCustomers();
-            return customers;
-        }
-
-        public Customer GetCustomerById(Guid customerId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ServiceResult AddCustomer(Customer customer)
-        {
-            var serviceResult = new ServiceResult();
-            //validate dữ liệu
-            //check trường bắt buộc nhập, nếu dữ liệu hợp lệ trả về mô tả lỗi
-            var customerCode = customer.CustomerCode;
-            if (string.IsNullOrEmpty(customerCode))
-            {
-                var msg = new
-                {
-                    devMsg = new { fieldName = "CustomerCode", msg = "Mã khách hàng không được để trống" },
-                    userMsg = "Mã khách hàng không được phép để trống",
-                    Code = MISACode.NotValid,
-                };
-                serviceResult.MISACode = MISACode.NotValid;
-                serviceResult.Messenger = "Mã khách hàng không được phép để trống";
-                serviceResult.Data = msg;
-                return serviceResult;
-            }
-
-            //check trùng mã
-            var res = _customerRepository.GetCustomerByCode(customerCode);
-            if (res != null)
-            {
-                var msg = new
-                {
-                    devMsg = new { fieldName = "CustomerCode", msg = "Mã khách hàng đã tồn tại" },
-                    userMsg = "Mã khách hàng đã tồn tại",
-                    Code = MISACode.NotValid,
-                };
-                serviceResult.MISACode = MISACode.NotValid;
-                serviceResult.Messenger = "Mã khách hàng đã tồn tại";
-                serviceResult.Data = msg;
-                return serviceResult;
-            }
-            //Thêm mới dữ liệu hợp lệ
-            var row = _customerRepository.AddCustomer(customer);
-            serviceResult.MISACode = MISACode.IsValid;
-            serviceResult.Messenger = "Thêm thành công";
-            serviceResult.Data = row;
-            return serviceResult;
-        }
-
-        public ServiceResult UpdateCustomer(Customer customer)
+        public IEnumerable<Customer> GetCustomerByDepartment(Guid departmentId)
         {
             throw new NotImplementedException();
         }
 
-        public ServiceResult DeleteCustomer(Guid customerId)
+        public IEnumerable<Customer> GetCustomerPaging(int limit, int offset)
         {
             throw new NotImplementedException();
         }
-
-        #endregion
     }
 }

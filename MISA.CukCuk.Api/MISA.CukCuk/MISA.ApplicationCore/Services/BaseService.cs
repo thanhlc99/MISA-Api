@@ -1,4 +1,5 @@
 ﻿using MISA.ApplicationCore.Interfaces;
+using MISA.ApplicationCore.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -17,9 +18,18 @@ namespace MISA.ApplicationCore.Services
         #endregion
 
         #region method
-        public int Add(TEntity entity)
+        public virtual int Add(TEntity entity)
         {
-            return _baseRepository.Add(entity);
+            //thực hiện validate
+            var isValidate = Validate(entity);
+            if (isValidate)
+            {
+                return _baseRepository.Add(entity);
+            }
+            else
+            {
+                return 0;
+            }
         }
 
         public int Delete(Guid entityId)
@@ -40,6 +50,38 @@ namespace MISA.ApplicationCore.Services
         public int Update(TEntity entity)
         {
             return _baseRepository.Update(entity);
+        }
+
+        private bool Validate(TEntity entity)
+        {
+            var isValidate = true;
+            //đọc các property
+            var properties = entity.GetType().GetProperties();
+            foreach(var property in properties)
+            {
+                //kiểm tra xem có các attribute cần phải validate không
+                if(property.IsDefined(typeof(Required),false))
+                {
+                    //check bắt buộc nhập
+                    var propertyValue = property.GetValue(entity);
+                    if(propertyValue == null)
+                    {
+                        isValidate = false;
+                    }
+                }
+                else
+                {
+                    if(property.IsDefined(typeof(CheckDuplicate),false))
+                    {
+                        var entityDulicate = _baseRepository.GetEntityByProperty(property.Name,property.GetValue(entity));
+                        if(entityDulicate!=null)
+                        {
+                            isValidate = false;
+                        }    
+                    }    
+                }    
+            }
+            return isValidate;
         }
         #endregion
     }
