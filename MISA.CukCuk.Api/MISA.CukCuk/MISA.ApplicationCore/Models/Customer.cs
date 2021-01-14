@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -9,7 +10,7 @@ namespace MISA.ApplicationCore.Models
     /// Khách hàng
     /// </summary>
     /// CreateBy: mvthanh(23/11/2020)
-    public class Customer
+    public class Customer:BaseEntiy
     {
         #region Declare
         #endregion
@@ -28,6 +29,8 @@ namespace MISA.ApplicationCore.Models
         /// </summary>
         [CheckDuplicate]
         [Required]
+        [DisplayName("mã khách hàng")]
+        [MaxLength(20,"mã khách hàng không được quá 20 ký tự!")]
         public string CustomerCode { get; set; }
         /// <summary>
         /// họ và tên đầy đủ
@@ -69,22 +72,7 @@ namespace MISA.ApplicationCore.Models
         /// Địa chỉ
         /// </summary>
         public string Address { get; set; }
-        /// <summary>
-        /// Ngày khởi tạo
-        /// </summary>
-        public DateTime? CreatedDate { get; set; }
-        /// <summary>
-        /// Người khởi tạo
-        /// </summary>
-        public string CreatedBy { get; set; }
-        /// <summary>
-        /// Ngày sửa
-        /// </summary>
-        public DateTime? ModifiedDate { get; set; }
-        /// <summary>
-        /// Người sửa
-        /// </summary>
-        public string ModifiedBy { get; set; }
+       
         #endregion
 
         #region Method

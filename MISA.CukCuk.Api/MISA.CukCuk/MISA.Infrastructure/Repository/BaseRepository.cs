@@ -1,16 +1,19 @@
 ﻿using Dapper;
 using Microsoft.Extensions.Configuration;
+using MISA.ApplicationCore.Enums;
 using MISA.ApplicationCore.Interfaces;
+using MISA.ApplicationCore.Models;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace MISA.Infrastructure.Repository
 {
-    public class BaseRepository<TEntity> : IBaseRepository<TEntity>
+    public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity:BaseEntiy
     {
         #region declare
         IConfiguration _configuration;
@@ -41,7 +44,8 @@ namespace MISA.Infrastructure.Repository
 
         public int Delete(Guid entityId)
         {
-            throw new NotImplementedException();
+            var res = dbConnection.Execute($"delete from {tableName} where {tableName}Id = '{entityId.ToString()}'",commandType:CommandType.Text);
+            return res;
         }
 
         public IEnumerable<TEntity> GetEntities()
@@ -55,14 +59,18 @@ namespace MISA.Infrastructure.Repository
         public TEntity GetEntityById(Guid entityId)
         {
             //khởi tạo commandText
-            var entitys = dbConnection.Query<TEntity>($"Proc_Get{tableName}ById", new { CustomerId = entityId.ToString()}, commandType: CommandType.StoredProcedure).FirstOrDefault();
+            var entitys = dbConnection.Query<TEntity>($"select * from {tableName} where {tableName}Id = '{entityId.ToString()}'", commandType: CommandType.Text).FirstOrDefault();
             //trả về dữ liệu
             return entitys;
         }
 
         public int Update(TEntity entity)
         {
-            throw new NotImplementedException();
+            var parameters = MappingDbType(entity);
+            //khởi tạo commandText
+            var res = dbConnection.Execute($"Proc_Update{tableName}", parameters, commandType: CommandType.StoredProcedure);
+            //trả về dữ liệu
+            return res;
         }
 
         private DynamicParameters MappingDbType(TEntity entity)
@@ -88,11 +96,27 @@ namespace MISA.Infrastructure.Repository
             return parameters;
         }
 
-        public TEntity GetEntityByProperty(string propertyName, object propertyValue)
+        public TEntity GetEntityByProperty(TEntity entity, PropertyInfo property)
         {
-            var entity = dbConnection.Query<TEntity>($"select * from {tableName} where {propertyName} = '{propertyValue}'",commandType:CommandType.Text).FirstOrDefault();
-            return entity;
+            var propertyName = property.Name;
+            var propertyValue = property.GetValue(entity);
+            var keyValue = entity.GetType().GetProperty($"{tableName}Id").GetValue(entity);
+            var query = string.Empty;
+            if(entity.EntityState == EntityState.AddNew)
+            {
+                query = $"select * from {tableName} where {propertyName} = '{propertyValue}'";
+            }
+            else if(entity.EntityState == EntityState.Update){
+                query = $"select * from {tableName} where {propertyName} = '{propertyValue}' and {tableName}Id <> '{keyValue}'";
+            }
+            else
+            {
+                return null;
+            }
+            var entityReturn = dbConnection.Query<TEntity>(query,commandType:CommandType.Text).FirstOrDefault();
+            return entityReturn;
         }
+
         #endregion
     }
 }

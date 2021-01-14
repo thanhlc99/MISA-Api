@@ -15,11 +15,14 @@ namespace MISA.CukCuk.Api.Controllers
     {
         IBaseService<TEntity> _baseService;
 
+        #region constructor
         public BaseEntityController(IBaseService<TEntity> baseService)
         {
             _baseService = baseService;
         }
+        #endregion
 
+        #region method
         /// <summary>
         /// Lấy toàn bộ
         /// </summary>
@@ -33,20 +36,7 @@ namespace MISA.CukCuk.Api.Controllers
         }
 
         /// <summary>
-        /// Thêm mới
-        /// </summary>
-        /// <param name="customer">object</param>
-        /// <returns>200</returns>
-        /// CreatedBy: MVThanh(12/01/2021)
-        [HttpPost]
-        public IActionResult Post(TEntity entity)
-        {
-            var serviceResult = _baseService.Add(entity);
-            return Ok();
-        }
-
-        /// <summary>
-        /// lấy ra theo mã id
+        /// lấy thông tin theo khóa chính
         /// </summary>
         /// <param name="id">khóa chính</param>
         /// <returns>một obj</returns>
@@ -57,5 +47,79 @@ namespace MISA.CukCuk.Api.Controllers
             var entity = _baseService.GetEntityById(Guid.Parse(id));
             return Ok(entity);
         }
+
+        /// <summary>
+        /// Thêm mới
+        /// </summary>
+        /// <param name="customer">object</param>
+        /// <returns>200</returns>
+        /// CreatedBy: MVThanh(12/01/2021)
+        [HttpPost]
+        public IActionResult Post(TEntity entity)
+        {
+            var serviceResult = _baseService.Add(entity);
+            if (serviceResult.MISACode == ApplicationCore.Enums.MISACode.IsValid)
+            {
+                return BadRequest(serviceResult);
+            }
+            else
+            {
+                return Ok(serviceResult);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        [HttpPut("{id}")]
+        public IActionResult Put([FromRoute] string id,[FromBody] TEntity entity)
+        {
+            var keyProperty = entity.GetType().GetProperty($"{typeof(TEntity).Name}Id");
+            if(keyProperty.PropertyType == typeof(Guid))
+            {
+                keyProperty.SetValue(entity,Guid.Parse(id));
+            }
+            else if(keyProperty.PropertyType == typeof(int))
+            {
+                keyProperty.SetValue(entity, int.Parse(id));
+            }
+            else
+            {
+                keyProperty.SetValue(entity, id);
+            }
+            var serviceResult = _baseService.Update(entity);
+            if (serviceResult.MISACode == ApplicationCore.Enums.MISACode.IsValid)
+            {
+               
+                return Ok(serviceResult);
+            }
+            else
+            {
+                return BadRequest(serviceResult);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpDelete("{id}")]
+        public IActionResult Delete(string id)
+        {
+            var serviceResult = _baseService.Delete(Guid.Parse(id));
+            if (serviceResult.MISACode == ApplicationCore.Enums.MISACode.IsValid)
+            {
+                return BadRequest(serviceResult);
+            }
+            else
+            {
+                return Ok(serviceResult);
+            }
+        }
+        #endregion
     }
 }
