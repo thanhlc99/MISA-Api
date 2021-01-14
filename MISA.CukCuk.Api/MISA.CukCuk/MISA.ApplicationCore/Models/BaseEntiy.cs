@@ -21,11 +21,21 @@ namespace MISA.ApplicationCore.Models
 
     }
     [AttributeUsage(AttributeTargets.Property)]
+    public class DisplayName : Attribute
+    {
+        public string Name { get; set; }
+        public DisplayName(string name=null)
+        {
+            this.Name = name;
+        }
+    }
+
+    [AttributeUsage(AttributeTargets.Property)]
     public class MaxLength : Attribute
     {
         public int Value { get; set; }
         public string ErrorMsg { get; set; }
-        public MaxLength(int length,string errorMsg){
+        public MaxLength(int length,string errorMsg = null){
             this.Value = length;
             this.ErrorMsg = errorMsg;
             }

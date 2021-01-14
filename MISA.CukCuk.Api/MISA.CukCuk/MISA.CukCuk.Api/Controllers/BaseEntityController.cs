@@ -48,32 +48,32 @@ namespace MISA.CukCuk.Api.Controllers
             return Ok(entity);
         }
 
-        /// <summary>
-        /// Thêm mới
-        /// </summary>
-        /// <param name="customer">object</param>
-        /// <returns>200</returns>
-        /// CreatedBy: MVThanh(12/01/2021)
+       /// <summary>
+       /// Thêm mới một thông tin
+       /// </summary>
+       /// <param name="entity">object</param>
+       /// <returns>một thông tin nghiệp vụ</returns>
         [HttpPost]
         public IActionResult Post(TEntity entity)
         {
             var serviceResult = _baseService.Add(entity);
             if (serviceResult.MISACode == ApplicationCore.Enums.MISACode.IsValid)
             {
-                return BadRequest(serviceResult);
+                return Ok(serviceResult);
+                
             }
             else
             {
-                return Ok(serviceResult);
+                return BadRequest(serviceResult);
             }
         }
 
         /// <summary>
-        /// 
+        /// Sửa (cập nhật) thông tin của 1 đối tượng
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="entity"></param>
-        /// <returns></returns>
+        /// <param name="id">Khóa chính của đối tượng đó</param>
+        /// <param name="entity">object (đối tượng)</param>
+        /// <returns>một thông tin nghiệp vụ</returns>
         [HttpPut("{id}")]
         public IActionResult Put([FromRoute] string id,[FromBody] TEntity entity)
         {
@@ -90,6 +90,7 @@ namespace MISA.CukCuk.Api.Controllers
             {
                 keyProperty.SetValue(entity, id);
             }
+
             var serviceResult = _baseService.Update(entity);
             if (serviceResult.MISACode == ApplicationCore.Enums.MISACode.IsValid)
             {
@@ -103,21 +104,22 @@ namespace MISA.CukCuk.Api.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Xóa thông tin một đối tượng
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id">Khóa chính của đối tượng đó</param>
+        /// <returns>Trạng thái nghiệp vụ</returns>
         [HttpDelete("{id}")]
         public IActionResult Delete(string id)
         {
             var serviceResult = _baseService.Delete(Guid.Parse(id));
             if (serviceResult.MISACode == ApplicationCore.Enums.MISACode.IsValid)
             {
-                return BadRequest(serviceResult);
+                return Ok(serviceResult);
+               
             }
             else
             {
-                return Ok(serviceResult);
+                return BadRequest(serviceResult);
             }
         }
         #endregion

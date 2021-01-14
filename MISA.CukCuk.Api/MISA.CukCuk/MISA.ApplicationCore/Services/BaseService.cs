@@ -43,6 +43,7 @@ namespace MISA.ApplicationCore.Services
 
         public ServiceResult Delete(Guid entityId)
         {
+            
             var res = _baseRepository.Delete(entityId);
             if (res > 0)
             {
@@ -90,7 +91,7 @@ namespace MISA.ApplicationCore.Services
         }
 
         /// <summary>
-        /// Thực hiện kiểm tra dữ liệu gửi lên
+        /// Hàm thực hiện kiểm tra dữ liệu
         /// </summary>
         /// <param name="entity">1 obj</param>
         /// <returns>true(dữ liệu hợp lệ) - false (dữ liệu không hợp lệ)</returns>
@@ -103,7 +104,13 @@ namespace MISA.ApplicationCore.Services
             foreach(var property in properties)
             {
                 var propertyValue = property.GetValue(entity);
-                var displayName = property.GetCustomAttributes(typeof(DisplayNameAttribute),true);
+
+                var displayName = string.Empty;
+                var displayNameAttributes = property.GetCustomAttributes(typeof(DisplayName),true);
+                if(displayNameAttributes.Length > 0 )
+                {
+                    displayName = (displayNameAttributes[0] as DisplayName).Name;
+                }    
                 //kiểm tra xem có các attribute cần phải validate không
                 //check bắt buộc nhập
                 if (property.IsDefined(typeof(Required),false))

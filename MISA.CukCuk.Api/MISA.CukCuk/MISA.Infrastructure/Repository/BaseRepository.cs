@@ -13,7 +13,7 @@ using System.Text;
 
 namespace MISA.Infrastructure.Repository
 {
-    public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity:BaseEntiy
+    public class BaseRepository<TEntity> : IBaseRepository<TEntity>,IDisposable where TEntity:BaseEntiy
     {
         #region declare
         IConfiguration _configuration;
@@ -35,16 +35,28 @@ namespace MISA.Infrastructure.Repository
         #region Method
         public int Add(TEntity entity)
         {
-            var parameters = MappingDbType(entity);
-            //thi thi câu lệnh
-            var row = dbConnection.Execute($"Proc_Insert{tableName}", parameters, commandType: CommandType.StoredProcedure);
-            //trả về kết quả (số bản ghi thêm mới được)
-            return row;
+            var res = 0;
+            dbConnection.Open();
+            using (var transaction = dbConnection.BeginTransaction())
+            {
+                var parameters = MappingDbType(entity);
+                //thi thi câu lệnh
+                 res = dbConnection.Execute($"Proc_Insert{tableName}", parameters, commandType: CommandType.StoredProcedure);
+                //trả về kết quả (số bản ghi thêm mới được)
+                transaction.Commit();
+            }
+            return res;
         }
 
         public int Delete(Guid entityId)
         {
-            var res = dbConnection.Execute($"delete from {tableName} where {tableName}Id = '{entityId.ToString()}'",commandType:CommandType.Text);
+            var res = 0;
+            dbConnection.Open();
+            using (var transaction = dbConnection.BeginTransaction())
+            {
+                res = dbConnection.Execute($"delete from {tableName} where {tableName}Id = '{entityId.ToString()}'", commandType: CommandType.Text);
+                transaction.Commit();
+            }
             return res;
         }
 
@@ -66,10 +78,16 @@ namespace MISA.Infrastructure.Repository
 
         public int Update(TEntity entity)
         {
-            var parameters = MappingDbType(entity);
-            //khởi tạo commandText
-            var res = dbConnection.Execute($"Proc_Update{tableName}", parameters, commandType: CommandType.StoredProcedure);
-            //trả về dữ liệu
+            var res = 0;
+            dbConnection.Open();
+            using (var transaction = dbConnection.BeginTransaction())
+            {
+                var parameters = MappingDbType(entity);
+                //khởi tạo commandText
+                res = dbConnection.Execute($"Proc_Update{tableName}", parameters, commandType: CommandType.StoredProcedure);
+                //trả về dữ liệu
+                transaction.Commit();
+            }
             return res;
         }
 
@@ -115,6 +133,14 @@ namespace MISA.Infrastructure.Repository
             }
             var entityReturn = dbConnection.Query<TEntity>(query,commandType:CommandType.Text).FirstOrDefault();
             return entityReturn;
+        }
+
+        public void Dispose()
+        {
+            if(dbConnection.State == ConnectionState.Open)
+            {
+                dbConnection.Close();
+            }    
         }
 
         #endregion

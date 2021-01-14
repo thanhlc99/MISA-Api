@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -30,7 +29,7 @@ namespace MISA.ApplicationCore.Models
         [CheckDuplicate]
         [Required]
         [DisplayName("mã khách hàng")]
-        [MaxLength(20,"mã khách hàng không được quá 20 ký tự!")]
+        [MaxLength(20)]
         public string CustomerCode { get; set; }
         /// <summary>
         /// họ và tên đầy đủ
@@ -59,6 +58,7 @@ namespace MISA.ApplicationCore.Models
         /// <summary>
         /// số điện thoại
         /// </summary>
+        [DisplayName("số điện thoại")]
         public string PhoneNumber { get; set; }
         /// <summary>
         /// tên công ty
