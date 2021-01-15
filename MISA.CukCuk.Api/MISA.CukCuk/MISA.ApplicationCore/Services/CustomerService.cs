@@ -39,14 +39,9 @@ namespace MISA.ApplicationCore.Services
         //    }
         //}
 
-        public IEnumerable<Customer> GetCustomerByDepartment(Guid departmentId)
+        public List<Customer> GetCustomersFilter(string specs)
         {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Customer> GetCustomerPaging(int limit, int offset)
-        {
-            throw new NotImplementedException();
+            return _customerRepository.GetCustomersFilter(specs);
         }
     }
 }

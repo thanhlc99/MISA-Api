@@ -23,5 +23,16 @@ namespace MISA.Infrastructure.Repository
             var customerDuplicate = dbConnection.Query<Customer>($"Proc_Get{tableName}ByCode",commandType:CommandType.StoredProcedure).FirstOrDefault();
             return customerDuplicate;
         }
+
+        public List<Customer> GetCustomersFilter(string specs)
+        {
+            //build tham số đầu vào cho store
+            var parameters = new DynamicParameters();
+            parameters.Add("@CustomerCode", specs);
+            parameters.Add("@FullName", specs);
+            parameters.Add("@PhoneNumber", specs);
+            var customers = dbConnection.Query<Customer>("Proc_GetCustomerPaging", parameters, commandType: CommandType.StoredProcedure).ToList();
+            return customers;
+        }
     }
 }

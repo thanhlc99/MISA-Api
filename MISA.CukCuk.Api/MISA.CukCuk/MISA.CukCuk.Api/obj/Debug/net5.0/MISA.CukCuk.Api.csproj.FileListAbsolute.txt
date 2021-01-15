@@ -166,3 +166,7 @@ C:\Users\thanh\OneDrive\Desktop\MISA-Api\MISA.CukCuk.Api\MISA.CukCuk\MISA.CukCuk
 C:\Users\thanh\OneDrive\Desktop\MISA-Api\MISA.CukCuk.Api\MISA.CukCuk\MISA.CukCuk.Api\obj\Debug\net5.0\ref\MISA.CukCuk.Api.dll
 C:\Users\thanh\OneDrive\Desktop\MISA-Api\MISA.CukCuk.Api\MISA.CukCuk\MISA.CukCuk.Api\obj\Debug\net5.0\MISA.CukCuk.Api.pdb
 C:\Users\thanh\OneDrive\Desktop\MISA-Api\MISA.CukCuk.Api\MISA.CukCuk\MISA.CukCuk.Api\obj\Debug\net5.0\MISA.CukCuk.Api.genruntimeconfig.cache
+C:\Users\mvthanh\Desktop\MISA-Api\MISA.CukCuk.Api\MISA.CukCuk\MISA.CukCuk.Api\bin\Debug\net5.0\Microsoft.AspNetCore.JsonPatch.dll
+C:\Users\mvthanh\Desktop\MISA-Api\MISA.CukCuk.Api\MISA.CukCuk\MISA.CukCuk.Api\bin\Debug\net5.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+C:\Users\mvthanh\Desktop\MISA-Api\MISA.CukCuk.Api\MISA.CukCuk\MISA.CukCuk.Api\bin\Debug\net5.0\Newtonsoft.Json.dll
+C:\Users\mvthanh\Desktop\MISA-Api\MISA.CukCuk.Api\MISA.CukCuk\MISA.CukCuk.Api\bin\Debug\net5.0\Newtonsoft.Json.Bson.dll

@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -7,6 +7,8 @@ using Microsoft.OpenApi.Models;
 using MISA.ApplicationCore.Interfaces;
 using MISA.ApplicationCore.Services;
 using MISA.Infrastructure.Repository;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace MISA.CukCuk.Api
 {
@@ -22,11 +24,19 @@ namespace MISA.CukCuk.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-            services.AddControllers();
+            //config cors
+            services.AddCors();
+            services.AddControllers()
+                //config tùy chỉnh response trả về chữ hoa
+                .AddNewtonsoftJson(options =>
+                                     {
+                                         options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+                                         options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                                     });
+            //config DI
             services.AddScoped(typeof(IBaseService<>), typeof(BaseService<>));
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
-            services.AddScoped<ICustomerRepository,CustomerRepository>();
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddSwaggerGen(c =>
             {
@@ -46,7 +56,15 @@ namespace MISA.CukCuk.Api
 
             app.UseRouting();
 
+            //config cors
+            app.UseCors(option => option.AllowAnyMethod().AllowAnyOrigin().AllowAnyHeader());
+
             app.UseAuthorization();
+            //mặc định file khởi chạy
+            app.UseDefaultFiles();
+
+            //cấu hình đọc các file tĩnh html, hình ảnh
+            app.UseStaticFiles();
 
             app.UseEndpoints(endpoints =>
             {

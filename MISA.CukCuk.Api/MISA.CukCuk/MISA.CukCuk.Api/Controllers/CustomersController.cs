@@ -14,6 +14,17 @@ namespace MISA.CukCuk.Api.Controllers
         {
             _customerService = customerService;
         }
-       
+
+        /// <summary>
+        /// lấy danh sách khách hàng theo các tiêu chí
+        /// </summary>
+        /// <param name="specs">theo mã, tên hoặc số điện thoại của khách hàng</param>
+        /// <returns>Danh sách khách hàng theo các tiêu chí</returns>
+        /// createdBy:MVThanh (15/01/2021)
+        [HttpGet("filter")]
+        public IActionResult GetEmployeeFilter([FromQuery] string specs)
+        {
+            return Ok(_customerService.GetCustomersFilter(specs));
+        }
     }
 }

@@ -8,9 +8,12 @@ namespace MISA.ApplicationCore.Interfaces
 {
     public interface ICustomerService:IBaseService<Customer>
     {
-        IEnumerable<Customer> GetCustomerPaging(int limit,int offset);
-
-        IEnumerable<Customer> GetCustomerByDepartment(Guid departmentId);
-
+        /// <summary>
+        /// lấy danh sách khách hàng theo các tiêu chí
+        /// </summary>
+        /// <param name="specs">theo mã, tên hoặc số điện thoại của khách hàng</param>
+        /// <returns>Danh sách khách hàng theo các tiêu chí</returns>
+        /// createdBy:MVThanh (15/01/2021)
+        List<Customer> GetCustomersFilter(string specs);
     }
 }
