@@ -22,9 +22,20 @@ namespace MISA.CukCuk.Api.Controllers
         /// <returns>Danh sách khách hàng theo các tiêu chí</returns>
         /// createdBy:MVThanh (15/01/2021)
         [HttpGet("filter")]
-        public IActionResult GetEmployeeFilter([FromQuery] string specs)
+        public IActionResult GetCustomersFilter([FromQuery] string specs)
         {
             return Ok(_customerService.GetCustomersFilter(specs));
+        }
+        /// <summary>
+        /// thực hiện lấy thông tin theo số trang truyền lên
+        /// </summary>
+        /// <param name="page">số trang</param>
+        /// <returns>dữ liệu Json danh sách thông tin 10 khách hàng</returns>
+        [HttpGet("paging")]
+        public IActionResult GetCustomerByPage([FromQuery] int page)
+        {
+            Pager p = new Pager(page);
+            return Ok(_customerService.GetCustomerByPage(p));
         }
     }
 }

@@ -1,15 +1,14 @@
 /**
- * BASE dùng chung
+ * Hàm cha của employee và customer
  * created by mvthanh(26/12/2020)
  * */
 class BaseJs {
     constructor() {
-        this.hostNV = "";
         this.domainNV = null;
-        this.getDataUrl = null;
-        this.setDataUrl();
+        this.filter = '';
         this.setDomainNV();
-        this.loadData();
+        this.setFilter();
+        this.loadData();//thực hiện việc load dữ liệu ra
         this.initEvents();
     }
 
@@ -21,11 +20,11 @@ class BaseJs {
 
     }
 
-    /**======================================
-    * Hàm chứa các sự kiện trong form
-    * Created by mvthanh (26/12/2020)
-    **/
-    setDataUrl() {
+/**======================================
+* Hàm xét đường dẫn tìm kiếm
+* Created by mvthanh (26/12/2020)
+**/
+    setFilter() {
 
     }
 
@@ -44,19 +43,31 @@ class BaseJs {
         //Hiển thị thông tin chi tiết khi nhấn đúp chuột vô 1 bản ghi
         $('table tbody').on('dblclick', 'tr', me.btnDblClick.bind(me));
 
+        //xóa một bản ghi theo khóa chính
+        $('#btnDelete').click(me.btnDelete.bind(me));
 
-        $('#btnClose').click(function () {
+        //#region đóng dialog và xóa màu ở dòng click
+        $('#btnclose').click(function () {
             dialogDefault.dialog('close');
             $('tr.row-click').removeClass("row-click");
-        })
+        });
 
+        $('div#m-dialog').on('dialogclose', function (event) {
+            $('tr.row-click').removeClass("row-click");
+        });
+
+        //#endregion
+
+        //#region đóng pop-up cảnh báo nhập dữ liệu không hợp lệ
         $('.cancel').click(function () {
             $('.pop-up-notification').slideUp(1000);
         })
         $('.m-cancel').click(function () {
             $('.pop-up-notification').slideUp(1000);
         })
+        //#endregion
 
+        //#region validate(kiểm tra) dữ liệu nhập vào(input[text] or [email])
         //validate dữ liệu input
         $('input[required]').blur(function () {
             var value = $(this).val();
@@ -84,6 +95,7 @@ class BaseJs {
                 $(this).removeClass('border-red');
             }
         })
+        //#endregion
 
         //sự kiến ấn nút lưu
         $('#btnSave').click(me.btnSaveOnClick.bind(me));
@@ -108,11 +120,16 @@ class BaseJs {
      * Created by mvthanh (26/12/2020)
      * */
     loadData() {
-
         var fielNames = [];
-        //lấy thông tin các cột dữ liệu
         var columns = $('table thead th');//lấy số lượng cột th
-        var getDataUrl = this.getDataUrl;
+        var getDataUrl = this.domainNV;
+
+        //tìm kiếm
+        if (this.filter != '') {
+            $('table tbody tr').empty();
+            getDataUrl = this.filter;
+        }
+        
         $('#load').show();
         $.ajax({
             url: getDataUrl,
@@ -120,7 +137,6 @@ class BaseJs {
         }).done(function (res) {
 
             $.each(res, function (index, obj) {
-
                 var tr = $(`<tr></tr>`);
                 $(tr).data('objId', obj.CustomerId);
 
@@ -155,6 +171,7 @@ class BaseJs {
         }).fail(function (res) {
             $('#load').hide();
         })
+        this.filter = '';
     }
 
     /**======================================
@@ -167,13 +184,14 @@ class BaseJs {
             me.formMethod = "Add";
             //hiển thị dialog thêm thông tin
             dialogDefault.dialog('open');
-            $('input').val(null);
+            $('input:not(input[type="radio"])').val(null);
+            $('#btnDelete').addClass("m-hide");
             //load dữ liệu select box
             var select = $('select#CustomerGroupName');
             select.empty();
             $('#load').show();
             $.ajax({
-                url: me.hostNV + "/customergroups",
+                url: "/api/v1/customergroups",
                 method: "GET"
             }).done(function (res) {
                 if (res) {
@@ -212,11 +230,11 @@ class BaseJs {
                 $('.pop-up-notification').fadeIn(1000);
                 return;
             }
-
             //thu thập thông tin dữ liệu được nhập ->built thành objJson
             var objCustomers = {};
             var inputs = $('input[valueName],select[valueName]');//select tất cả các thẻ input
             $.each(inputs, function (index, value) {
+                debugger;
                 var propertieName = $(this).attr('valueName');
                 var valueCustomer = $(this).val();
                 if ($(this).attr('type') == "radio") {
@@ -231,29 +249,30 @@ class BaseJs {
             })
 
             var method = "POST";
+            var url = me.domainNV;
             if (me.formMethod == "Edit") {
                 method = "PUT";
                 objCustomers.CustomerId = me.objId;
-                console.log(objCustomers);
+                url = url + "/" + me.objId;
             }
-
             //gọi service thực hiện lưu
             $.ajax({
-                url: me.hostNV + me.domainNV,
+                url: url,
                 method: method,
                 data: JSON.stringify(objCustomers),
                 contentType: "application/json"
             }).done(function (res) {
                 if (res) {
-                    $('.success').fadeIn(1000);
-                    $('.success').delay(1000).slideUp(1000);
+                    $('#success').removeClass("m-hide");
+                    $('#success').fadeIn(1000);
+                    $('#success').delay(1000).slideUp(1000);
                     dialogDefault.dialog('close');
                     $('table tbody tr').empty();
                     me.loadData();
                 }
             }).fail(function (res) {
-                $('.error').fadeIn(1000);
-                $('.error').delay(1000).slideUp(1000);
+                $('#error').fadeIn(1000);
+                $('#error').delay(1000).slideUp(1000);
                 console.log(res);
             })
 
@@ -268,61 +287,84 @@ class BaseJs {
    * Hàm chức năng hiển thị thông tin chi tiết khi nhấn đúp chuột vô 1 bản ghi
    * Created by mvthanh (26/12/2020)
    * */
-    btnDblClick() {
+    btnDblClick(e) {
         var me = this;
         try {
-            $(this).addClass("row-click");
+            //bôi màu vào dòng ấn
+            $(e.currentTarget).addClass("row-click");
+            //hiển thị nút xóa
+            $('#btnDelete').removeClass("m-hide");
             //load dữ liệu form
-            var select = $('select#CustomerGroupName');
+            var select = $('select[valueName]');
+            var selects = $('dropdown[valueName]');
             select.empty();
-            $('#load').show();
-            $.ajax({
-                url: me.hostNV + "/customergroups",
-                method: "GET"
-            }).done(function (res) {
-                if (res) {
-                    $.each(res, function (index, value) {
-                        var option = $(`<option value="${value.CustomerGroupId}">${value.CustomerGroupName}</option>`);
-                        select.append(option);
-                    })
-                }
-                $('#load').hide();
-            }).fail(function (res) {
-                $('#load').hide();
+            $.each(selects, function (index, value) {
+                var api = $('dropdown').attr('api');
+                var fieldName = $('dropdown').attr('fieldName');
+                var fieldValue = $('dropdown').attr('valueName');
+                //hiển thị icon load
+                $('#load').show();
+                //ajax lấy dữ liệu
+                $.ajax({
+                    url: api,
+                    method: "GET"
+                }).done(function (res) {
+                    if (res) {
+                        $.each(res, function (index, value) {
+                            var option = $(`<option value="${value[fieldName]}">${value[fieldValue]}</option>`);
+                            select.append(option);
+                        })
+                    }
+                    $('#load').hide();
+                }).fail(function (res) {
+                    $('#load').hide();
+                })
             })
-
             me.formMethod = "Edit";
             //lấy khóa chính của bản ghi
-            var objId = $(this).data('objId');
+            var objId = $(e.currentTarget).data('objId');
             me.objId = objId;
             //gọi service lấy obj
             $.ajax({
-                url: me.getDataUrl + `/${objId}`,
+                url: me.domainNV + `/${objId}`,
                 method: "GET"
             }).done(function (res) {
 
-                //binding dữ liệu lên form chi tiết
+                //hiển thị dữ liệu lên form chi tiết
                 var inputs = $('input[valueName],select[valueName]');//select tất cả các thẻ input
                 var entity = {};
                 $.each(inputs, function (index, value) {
                     var propertieName = $(this).attr('valueName');
                     var value = res[propertieName];
+
                     if (propertieName == "DateOfBirth") {
-                        value = formatYYMMDD(res[propertieName]);
+                        value = formatYYMMDD(res[propertieName]);//hiển thị dữ liệu lên text datetime
                     }
+
+                    //hiển thị dữ liệu giới tính
                     if (propertieName == "Gender") {
                         if (res[propertieName] == "1") {
                             $('input[title="nữ"]').prop('checked', false);
                             $('input[title="nam"]').prop('checked', true);
+
                         }
-                        if (res[propertieName] == "0") {
+                        else if (res[propertieName] == "0") {
                             $('input[title="nam"]').prop('checked', false);
                             $('input[title="nữ"]').prop('checked', true);
+
+                        }
+                        else if (res[propertieName] != "0" && res[propertieName] != "1") {
+                            $('input[title="nam"]').prop('checked', false);
+                            $('input[title="nữ"]').prop('checked', false);
+                            $('input[title="khác"]').prop('checked', true);
+
                         }
                     }
                     $(this).val(value);
                 })
-
+                $('input[title="nam"]').val("1");
+                $('input[title="nữ"]').val("0");
+                $('input[title="khác"]').val("2");
             }).fail(function (res) {
                 console.log(res);
             })
@@ -332,4 +374,33 @@ class BaseJs {
             console.log(e);
         }
     }
+
+    /**======================================
+    * Hàm thực hiện chức năng xóa một bản ghi theo khóa chính của bản ghi đó
+    * Created by mvthanh (12/01/2021)
+    * */
+    btnDelete() {
+        var me = this;
+        try {
+            //thực hiện xóa
+            $.ajax({
+                url: me.domainNV + "/" + me.objId,
+                method: "Delete"
+            }).done(function (res) {
+                //đóng dialog
+                dialogDefault.dialog('close');
+                $('tr.row-click').removeClass("row-click");
+                //load lại
+                $('table tbody tr').empty();
+                me.loadData();
+            }).fail(function (res) {
+                console.log(res);
+            })
+
+        }
+        catch (e) {
+            console.log(e);
+        }
+    }
+
 }

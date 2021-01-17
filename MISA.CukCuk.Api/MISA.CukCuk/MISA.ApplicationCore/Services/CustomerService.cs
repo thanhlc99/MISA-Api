@@ -16,6 +16,8 @@ namespace MISA.ApplicationCore.Services
         {
             _customerRepository = customerRepository;
         }
+
+       
         #endregion
 
         //public override int Add(Customer entity)
@@ -42,6 +44,11 @@ namespace MISA.ApplicationCore.Services
         public List<Customer> GetCustomersFilter(string specs)
         {
             return _customerRepository.GetCustomersFilter(specs);
+        }
+
+        public IEnumerable<Customer> GetCustomerByPage(Pager page)
+        {
+            return _customerRepository.GetCustomerByPage(page);
         }
     }
 }

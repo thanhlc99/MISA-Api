@@ -32,6 +32,7 @@ namespace MISA.ApplicationCore.Services
             {
                 _serviceResult.Data= _baseRepository.Add(entity);
                 _serviceResult.MISACode = Enums.MISACode.IsValid;
+                _serviceResult.Messenger = "Thêm thành công!";
                 return _serviceResult;
             }
             else
@@ -121,7 +122,7 @@ namespace MISA.ApplicationCore.Services
                         isValidate = false;
                         misaArrayError.Add($"Thông tin {displayName} không được phép để trống!");
                         
-                        _serviceResult.Messenger = "Dữ liệu không hợp lệ!";
+                        _serviceResult.Messenger = Properties.Resources.Msg_IsNotValid;
                         _serviceResult.MISACode = Enums.MISACode.NotValid;
                     }
                 }
@@ -133,9 +134,9 @@ namespace MISA.ApplicationCore.Services
                         if(entityDulicate!=null)
                         {
                             isValidate = false;
-                            misaArrayError.Add($"Thông tin {displayName} đã có trên hệ thống!");
-                            _serviceResult.Messenger = "Dữ liệu không hợp lệ!";
-                            _serviceResult.MISACode = Enums.MISACode.NotValid;
+                            misaArrayError.Add(string.Format(Properties.Resources.Msg_Duplicate,displayName));
+                            _serviceResult.Messenger = Properties.Resources.Msg_IsNotValid;
+                        _serviceResult.MISACode = Enums.MISACode.NotValid;
                         }    
                     }
                 //check độ dài chuỗi
@@ -149,7 +150,7 @@ namespace MISA.ApplicationCore.Services
                     {
                         isValidate = false;
                         misaArrayError.Add(msg??$"thông tin này vượt quá {length} ký tự cho phép!");
-                        _serviceResult.Messenger = "Dữ liệu không hợp lệ!";
+                        _serviceResult.Messenger = Properties.Resources.Msg_IsNotValid;
                         _serviceResult.MISACode = Enums.MISACode.NotValid;
                     }
 

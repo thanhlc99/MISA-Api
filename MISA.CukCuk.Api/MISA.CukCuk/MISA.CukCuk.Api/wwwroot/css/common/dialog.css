@@ -9,10 +9,10 @@
     .m-content input {
        color: #000000!important;
     }
+
     .m-dialog .m-dialog-content {
         position: absolute;
         width: 800px;
-        height: 690px;
         z-index: 2;
         border-radius: 4px;
         top: calc(50% - 340px);
@@ -102,26 +102,52 @@
     }
 
         .m-dialog_footer .footer_content button {
-            height: 36px;
-            margin-top: 12px;
-            margin-bottom: 12px;
+            margin-top: 10px;
+            margin-bottom: 10px;
             margin-right: 16px;
             width: 100px;
         }
+.footer_content_clone{
+    position:absolute;
+    right: 140px;
+}
 
-.m-delete {
+.footer_content_clone .btn-no-Icon {
     border: none;
     cursor: pointer;
     outline: none;
-    transform: translateY(-2px);
-    background-color: #E9EBEE;
     border-radius: 4px;
+    padding-left: 24px;
+    padding-right: 24px;
+    height: 40px;
+    width: 100px;
 }
-    .m-delete:hover {
+
+.footer_content_clone .m-close {
+    background-color: #E9EBEE;
+   margin-top:10px;
+   margin-bottom:10px;
+}
+    .footer_content_clone .m-close:hover {
         background-color: #bbbbbb;
     }
     .m-add {
         display: inline-flex !important;
+    }
+.m-delete {
+    background-color: #F65454;
+    color:#fff;
+    margin-left:16px;
+}
+    .m-delete:hover {
+        background-color: #F65454;
+    }
+    .m-hide{
+        display:none;
+    }
+
+    .dialog-cancel {
+        top: 0px;
     }
 /*=============end css content dialog===============*/
 
@@ -144,7 +170,9 @@
     position: absolute;
     top: 0;
 }
-
+#m-dialog {
+    height: auto !important;
+}
 #dialog1 p {
     padding: 0;
     margin: 0;
@@ -183,8 +211,12 @@
     .ui-button:hover {
         background-color: #BBBBBB;
     }
-/* ================End css cho jquery dialog================*/
-/*============icon load================*/
+.ui-dialog .ui-dialog-titlebar-close{
+    width:24px!important;
+    height:24px!important;
+}
+    /* ================End css cho jquery dialog================*/
+    /*============icon load================*/
     .load {
         display: none;
     }
@@ -224,32 +256,58 @@
 /*============end icon load================*/
 /*============notification================*/
 .success {
-    display: none;
+    width: 300px;
+    height: 48px;
+    z-index: 10;
+    border-radius: 4px;
+    position: absolute;
+    top: 15%;
+    right: 10px;
+    display: flex;
+    background-color: #ffffff;
+    box-shadow: 0px 3px 6px #000000;
+}
+.icon-check {
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
     background-color: #01B075;
-    width: 200px;
-    height: 50px;
-    z-index: 10;
-    border-radius: 20px;
-    position: absolute;
-    top: 15%;
-    left: 50%;
+    line-height:30px;
+    display:flex;
+    margin:auto 16px;
 }
+    .icon-check img{
+        margin:auto;
+    }
+
+.not-cancel {
+    display: flex;
+    padding-left: 16px;
+    cursor:pointer;
+}
+
 .error {
-    display: none;
+    width: 330px;
+    height: 48px;
+    z-index: 10;
+    border-radius: 4px;
     position: absolute;
     top: 15%;
-    left: 50%;
-    z-index: 10;
-    width: 200px;
-    border-radius: 20px;
-    height: 50px;
-    background-color: #F65454;
+    right: 10px;
+    display: flex;
+    background-color: #ffffff;
+    box-shadow: 0px 3px 6px #000000;
 }
+
+    .error .m-danger {
+        background-color: #F65454;
+    }
+
 .title_notification {
-    line-height: 50px;
+    line-height: 48px;
     text-align: center;
     font-size: 13px;
-    color: #fff;
+    color: #000000;
 }
 .pop-up-notification {
     display:none;

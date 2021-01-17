@@ -10,6 +10,12 @@ namespace MISA.ApplicationCore.Models
     /// createdBy: MVThanh(12/01/2021)
     public class Employee
     {
+        #region Declare
+        #endregion
+
+        #region Constructor
+        #endregion
+
         #region property
         /// <summary>
         /// khóa chính
@@ -92,5 +98,9 @@ namespace MISA.ApplicationCore.Models
         /// </summary>
         public string ModifiedBy { get; set; }
         #endregion
+
+        #region Method
+        #endregion
+
     }
 }

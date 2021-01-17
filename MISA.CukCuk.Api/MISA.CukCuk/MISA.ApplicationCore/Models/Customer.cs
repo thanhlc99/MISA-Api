@@ -52,6 +52,29 @@ namespace MISA.ApplicationCore.Models
         /// </summary>
         public int? Gender { get; set; }
         /// <summary>
+        /// config giới tính
+        /// </summary>
+        public string GenderName
+        {
+            get
+            {
+                var name = string.Empty;
+                switch (Gender)
+                {
+                    case (int)Enums.Gender.female:
+                        name = Properties.Resources.female;
+                        break;
+                    case (int)Enums.Gender.male:
+                        name = Properties.Resources.male;
+                        break;
+                    case (int)Enums.Gender.other:
+                        name = Properties.Resources.other;
+                        break;
+                }
+                return name;
+            }
+        }
+        /// <summary>
         /// địa chỉ email
         /// </summary>
         public string Email { get; set; }
@@ -72,7 +95,10 @@ namespace MISA.ApplicationCore.Models
         /// Địa chỉ
         /// </summary>
         public string Address { get; set; }
-       
+        /// <summary>
+        /// tên nhóm khách hàng
+        /// </summary>
+        public string CustomerGroupName { get; set; }
         #endregion
 
         #region Method

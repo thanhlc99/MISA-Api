@@ -1,5 +1,6 @@
 ﻿$(document).ready(function () {
     new Customer();
+    //khai báo các thông tin chung cho dialog
     dialogDefault = $('#m-dialog').dialog({
         autoOpen: false,
         fluid: true,
@@ -22,11 +23,22 @@ class Customer extends BaseJs {
         super();
     }
 
-    setDataUrl() {
-        this.getDataUrl = "/api/v1/Customers";
+    initEvents() {
+        var me = this;
+        super.initEvents();
+        $('#txtSearch').blur(function () {
+            var value = $('#txtSearch').val();
+            me.filter = "/api/v1/customers/filter?specs=" + value;
+            me.loadData();
+        })
+    }
+
+    setFilter() {
+        this.filter = "";
     }
 
     setDomainNV() {
-        this.domainNV = "/api/v1/Customers";
+        this.domainNV = "/api/v1/customers";
     }
+
 }

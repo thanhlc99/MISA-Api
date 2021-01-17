@@ -10,10 +10,10 @@ class Employee extends BaseJs {
     constructor() {
         super();
     }
-    setDataUrl() {
-        this.getDataUrl = "http://api.manhnv.net/api/employees";
-    }
 
+    setDomainNV() {
+        this.domainNV = "/api/v1/employees";
+    }
    
 }
 

@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using MISA.ApplicationCore.Interfaces;
 using MISA.ApplicationCore.Services;
+using MISA.CukCuk.Api.Middleware;
 using MISA.Infrastructure.Repository;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -53,6 +54,8 @@ namespace MISA.CukCuk.Api
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MISA.CukCuk.Api v1"));
             }
+            //confix exception
+            app.UseMiddleware<ErrorHandlingMiddleware>();
 
             app.UseRouting();
 

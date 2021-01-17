@@ -20,15 +20,46 @@ namespace MISA.ApplicationCore.Enums
         /// <summary>
         /// Thành công
         /// </summary>
-        Success=200
+        Success=200,
+        /// <summary>
+        /// xảy ra lỗi khi xử lý
+        /// </summary>
+        Exception = 500
     }
     /// <summary>
-    /// xác định trạng thái của obj
+    /// xác định trạng thái làm việc của obj
     /// </summary>
     public enum EntityState
     {
+        /// <summary>
+        /// Thêm  mới
+        /// </summary>
         AddNew = 1,
+        /// <summary>
+        /// sửa (cập nhật)
+        /// </summary>
         Update = 2,
+        /// <summary>
+        /// xóa
+        /// </summary>
         Delete = 3
+    }
+    /// <summary>
+    /// Giới tính
+    /// </summary>
+    public enum Gender
+    {
+        /// <summary>
+        /// nữ
+        /// </summary>
+        female = 0,
+        /// <summary>
+        /// nam
+        /// </summary>
+        male = 1,
+        /// <summary>
+        /// khác
+        /// </summary>
+        other = 2
     }
 }

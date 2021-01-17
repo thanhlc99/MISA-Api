@@ -112,7 +112,7 @@ namespace MISA.CukCuk.Api.Controllers
         public IActionResult Delete(string id)
         {
             var serviceResult = _baseService.Delete(Guid.Parse(id));
-            if (serviceResult.MISACode == ApplicationCore.Enums.MISACode.IsValid)
+            if (serviceResult.MISACode == ApplicationCore.Enums.MISACode.Success)
             {
                 return Ok(serviceResult);
                

@@ -13,7 +13,7 @@ using System.Text;
 
 namespace MISA.Infrastructure.Repository
 {
-    public class BaseRepository<TEntity> : IBaseRepository<TEntity>,IDisposable where TEntity:BaseEntiy
+    public class BaseRepository<TEntity> : IBaseRepository<TEntity>, IDisposable where TEntity : BaseEntiy
     {
         #region declare
         IConfiguration _configuration;
@@ -39,12 +39,19 @@ namespace MISA.Infrastructure.Repository
             dbConnection.Open();
             using (var transaction = dbConnection.BeginTransaction())
             {
-                var parameters = MappingDbType(entity);
-                //thi thi câu lệnh
-                 res = dbConnection.Execute($"Proc_Insert{tableName}", parameters, commandType: CommandType.StoredProcedure);
-                //trả về kết quả (số bản ghi thêm mới được)
-                transaction.Commit();
+                try
+                {
+                    var parameters = MappingDbType(entity);
+                    //thi thi câu lệnh
+                    res = dbConnection.Execute($"Proc_Insert{tableName}", parameters, commandType: CommandType.StoredProcedure);
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                }
             }
+            //trả về kết quả (số bản ghi thêm mới được)
             return res;
         }
 
@@ -62,8 +69,8 @@ namespace MISA.Infrastructure.Repository
 
         public IEnumerable<TEntity> GetEntities()
         {
-            //khởi tạo commandText
-            var entitys = dbConnection.Query<TEntity>($"Proc_Get{tableName}s", null, commandType: CommandType.StoredProcedure);
+             //khởi tạo commandText
+            var entitys = dbConnection.Query<TEntity>($"Proc_Get{tableName}s", commandType: CommandType.StoredProcedure);
             //trả về dữ liệu
             return entitys;
         }
@@ -90,7 +97,11 @@ namespace MISA.Infrastructure.Repository
             }
             return res;
         }
-
+        /// <summary>
+        ///Hàm thực hiện Chuyển kiểu dữ liệu Guid sang kiểu dữ liệu string
+        /// </summary>
+        /// <param name="entity">một obj</param>
+        /// <returns>obj đã được chuyển đổi các thành phần có kiểu dữ liệu guid sang string</returns>
         private DynamicParameters MappingDbType(TEntity entity)
         {
             //Chuyển Guid sang string (Xử lý các kiểu dữ liệu)
@@ -120,27 +131,28 @@ namespace MISA.Infrastructure.Repository
             var propertyValue = property.GetValue(entity);
             var keyValue = entity.GetType().GetProperty($"{tableName}Id").GetValue(entity);
             var query = string.Empty;
-            if(entity.EntityState == EntityState.AddNew)
+            if (entity.EntityState == EntityState.AddNew)
             {
                 query = $"select * from {tableName} where {propertyName} = '{propertyValue}'";
             }
-            else if(entity.EntityState == EntityState.Update){
+            else if (entity.EntityState == EntityState.Update)
+            {
                 query = $"select * from {tableName} where {propertyName} = '{propertyValue}' and {tableName}Id <> '{keyValue}'";
             }
             else
             {
                 return null;
             }
-            var entityReturn = dbConnection.Query<TEntity>(query,commandType:CommandType.Text).FirstOrDefault();
+            var entityReturn = dbConnection.Query<TEntity>(query, commandType: CommandType.Text).FirstOrDefault();
             return entityReturn;
         }
 
         public void Dispose()
         {
-            if(dbConnection.State == ConnectionState.Open)
+            if (dbConnection.State == ConnectionState.Open)
             {
                 dbConnection.Close();
-            }    
+            }
         }
 
         #endregion
