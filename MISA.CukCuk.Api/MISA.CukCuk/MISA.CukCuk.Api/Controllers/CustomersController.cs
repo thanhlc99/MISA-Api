@@ -31,11 +31,17 @@ namespace MISA.CukCuk.Api.Controllers
         /// </summary>
         /// <param name="page">số trang</param>
         /// <returns>dữ liệu Json danh sách thông tin 10 khách hàng</returns>
-        [HttpGet("paging")]
+        [HttpGet("pagination")]
         public IActionResult GetCustomerByPage([FromQuery] int page)
         {
-            Pager p = new Pager(page);
-            return Ok(_customerService.GetCustomerByPage(p));
+            return Ok(_customerService.GetCustomerByPage(page));
         }
+
+        [HttpGet("count")]
+        public IActionResult GetCountPage()
+        {
+            return Ok(_customerService.GetCustomerCount());
+        }
+
     }
 }

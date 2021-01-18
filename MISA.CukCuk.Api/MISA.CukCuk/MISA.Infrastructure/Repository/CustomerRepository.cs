@@ -30,6 +30,12 @@ namespace MISA.Infrastructure.Repository
                 return results;
         }
 
+        public int GetCustomerCount()
+        {
+            var counts = dbConnection.ExecuteScalar<int>("SELECT COUNT(*) AS 'Count' FROM Customer c;", commandType: CommandType.Text);
+            return counts;
+        }
+
         public List<Customer> GetCustomersFilter(string specs)
         {
             //build tham số đầu vào cho store

@@ -9,6 +9,7 @@ class BaseJs {
         this.setDomainNV();
         this.setFilter();
         this.loadData();//thực hiện việc load dữ liệu ra
+        this.pagination();
         this.initEvents();
     }
 
@@ -123,7 +124,7 @@ class BaseJs {
         var fielNames = [];
         var columns = $('table thead th');//lấy số lượng cột th
         var getDataUrl = this.domainNV;
-
+       
         //tìm kiếm
         if (this.filter != '') {
             $('table tbody tr').empty();
@@ -135,8 +136,10 @@ class BaseJs {
             url: getDataUrl,
             method: "GET"
         }).done(function (res) {
+           
 
             $.each(res, function (index, obj) {
+                
                 var tr = $(`<tr></tr>`);
                 $(tr).data('objId', obj.CustomerId);
 
@@ -146,7 +149,7 @@ class BaseJs {
                     var value = obj[fielNames];//lấy thông tin dữ liệu map tương ứng
                     var formatType = $(th).attr('formatType');//lấy dữ liệu để map format date
                     switch (formatType) {
-                        case "d/m/y":
+                        case "d/m/y":   
                             value = formatDate(value);
                             td = $(`<td class="text-center"></td>`);
                             break;
@@ -165,14 +168,42 @@ class BaseJs {
 
                 })
                 $('table tbody').append(tr);
-
+                
                 $('#load').hide();
             })
+
+            
         }).fail(function (res) {
             $('#load').hide();
         })
         this.filter = '';
     }
+    //thực hiện phân trang
+    pagination() {
+        $.ajax({
+            url: "/api/v1/Customers/count",
+            method: "GET"
+        }).done(function (res) {
+            
+            console.log(res);
+            var n = res / 10;
+            var pageLeft = `<div class="icon_firstpage"></div>
+                <div class="icon_prevpage"></div>`;
+            var numberPage = ``;
+            var pageRight = `<div class="icon_nextpage"></div>
+                                <div class="icon_lastpage"></div>`;
+            for (var i = 1; i < 4; i++) {
+                numberPage += `<div class="number_page">${i}</div>`;
+            }
+
+            var page = pageLeft + numberPage + pageRight;
+            $('._center').append(page);
+           
+        }).fail(function (res) {
+            alert(res);
+        })
+    }
+
 
     /**======================================
     * Hàm chức năng khi ấn button thêm mới
@@ -234,7 +265,7 @@ class BaseJs {
             var objCustomers = {};
             var inputs = $('input[valueName],select[valueName]');//select tất cả các thẻ input
             $.each(inputs, function (index, value) {
-                debugger;
+                
                 var propertieName = $(this).attr('valueName');
                 var valueCustomer = $(this).val();
                 if ($(this).attr('type') == "radio") {
@@ -255,6 +286,7 @@ class BaseJs {
                 objCustomers.CustomerId = me.objId;
                 url = url + "/" + me.objId;
             }
+            debugger;
             //gọi service thực hiện lưu
             $.ajax({
                 url: url,
@@ -263,6 +295,7 @@ class BaseJs {
                 contentType: "application/json"
             }).done(function (res) {
                 if (res) {
+                    debugger;
                     $('#success').removeClass("m-hide");
                     $('#success').fadeIn(1000);
                     $('#success').delay(1000).slideUp(1000);

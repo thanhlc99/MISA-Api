@@ -27,3 +27,5 @@ C:\Users\thanh\OneDrive\Desktop\MISA-Api\MISA.CukCuk.Api\MISA.CukCuk\MISA.Applic
 C:\Users\thanh\OneDrive\Desktop\MISA-Api\MISA.CukCuk.Api\MISA.CukCuk\MISA.ApplicationCore\obj\Debug\netcoreapp3.1\MISA.ApplicationCore.pdb
 C:\Users\thanh\OneDrive\Desktop\MISA-Api\MISA.CukCuk.Api\MISA.CukCuk\MISA.ApplicationCore\obj\Debug\netcoreapp3.1\MISA.ApplicationCore.Properties.Resources.resources
 C:\Users\thanh\OneDrive\Desktop\MISA-Api\MISA.CukCuk.Api\MISA.CukCuk\MISA.ApplicationCore\obj\Debug\netcoreapp3.1\MISA.ApplicationCore.csproj.GenerateResource.cache
+C:\Users\mvthanh\Desktop\MISA-Api\MISA.CukCuk.Api\MISA.CukCuk\MISA.ApplicationCore\obj\Debug\netcoreapp3.1\MISA.ApplicationCore.Properties.Resources.resources
+C:\Users\mvthanh\Desktop\MISA-Api\MISA.CukCuk.Api\MISA.CukCuk\MISA.ApplicationCore\obj\Debug\netcoreapp3.1\MISA.ApplicationCore.csproj.GenerateResource.cache
