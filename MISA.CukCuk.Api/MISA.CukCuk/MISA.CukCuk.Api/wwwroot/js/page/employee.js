@@ -1,5 +1,17 @@
 ﻿$(document).ready(function () {
     new Employee();
+    //khai báo các thông tin chung cho dialog
+    dialogDefault = $('#m-dialog').dialog({
+        autoOpen: false,
+        fluid: true,
+        minWidth: 750,
+        height: 637,
+        resizable: true,
+        position: ({
+            my: "center", at: "center", of: window
+        }),
+        modal: true
+    });
 })
 
 /**

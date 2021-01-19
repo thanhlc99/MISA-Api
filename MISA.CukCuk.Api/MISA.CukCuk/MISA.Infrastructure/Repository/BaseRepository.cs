@@ -67,7 +67,7 @@ namespace MISA.Infrastructure.Repository
             return res;
         }
 
-        public IEnumerable<TEntity> GetEntities()
+        public virtual IEnumerable<TEntity> GetEntities()
         {
              //khởi tạo commandText
             var entitys = dbConnection.Query<TEntity>($"Proc_Get{tableName}s", commandType: CommandType.StoredProcedure);

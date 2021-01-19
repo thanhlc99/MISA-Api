@@ -9,7 +9,6 @@
     <link href="/css/common/dialog.css" rel="stylesheet" />
     <link href="/css/common/navbar.css" rel="stylesheet" />
     <link href="/css/common/input.css" rel="stylesheet" />
-    <link href="/css/common/drowdown.css" rel="stylesheet" />
     <link href="/css/common/radiobutton.css" rel="stylesheet" />
     <link href="/css/common/content.css" rel="stylesheet" />
     <link href="/css/common/icon.css" rel="stylesheet" />
@@ -144,7 +143,13 @@
         <div class="paging-bar">
             <div class="text_left">Hiển thị 1-10/1000 khách hàng</div>
             <div class="_center">
-                
+                <div class="icon_firstpage"></div>
+                <div class="icon_prevpage"></div>
+                <div class="number">
+                    
+                </div>
+                <div class="icon_nextpage"></div>
+                <div class="icon_lastpage"></div>
             </div>
             <div class="text_right">10 khách hàng/trang</div>
         </div>
@@ -174,7 +179,8 @@
                         </div>
                         <div class="m-row">
                             <p>Ngày sinh</p>
-                            <input type="date" id="txtBirthDay" valueName="DateOfBirth" />
+                            <input id="datepicker" valueName="DateOfBirth"  format="dd/mm/yyyy" placeholder="_ _/_ _/_ _ _ _" />
+                            
                         </div>
                     </div>
                     <div class="conten_top_center">
@@ -294,7 +300,6 @@
     <script src="/lib/jquery-3.5.1.min.js"></script>
     <script src="/lib/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
     <script src="/js/common/common.js"></script>
-    <script src="/js/common/drowdown.js"></script>
     <script src="/js/common/base.js"></script>
     <script src="/js/page/customer.js"></script>
 </body>

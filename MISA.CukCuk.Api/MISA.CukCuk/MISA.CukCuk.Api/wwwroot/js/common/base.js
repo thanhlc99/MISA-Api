@@ -4,10 +4,11 @@
  * */
 class BaseJs {
     constructor() {
-        this.domainNV = null;
         this.filter = '';
+        this.numberPage = '';
         this.setDomainNV();
         this.setFilter();
+        this.setNumberPage();
         this.loadData();//thực hiện việc load dữ liệu ra
         this.pagination();
         this.initEvents();
@@ -21,11 +22,18 @@ class BaseJs {
 
     }
 
-/**======================================
-* Hàm xét đường dẫn tìm kiếm
-* Created by mvthanh (26/12/2020)
-**/
+    /**======================================
+    * Hàm xét đường dẫn tìm kiếm
+    * Created by mvthanh (17/01/2021)
+    **/
     setFilter() {
+
+    }
+    /**======================================
+    * Hàm xét đường dẫn tìm kiếm
+    * Created by mvthanh (19/01/2021)
+    **/
+    setNumberPage() {
 
     }
 
@@ -100,6 +108,7 @@ class BaseJs {
 
         //sự kiến ấn nút lưu
         $('#btnSave').click(me.btnSaveOnClick.bind(me));
+
     }
     /**======================================
     * Hàm chức năng load lại dữ liệu trên trang
@@ -121,6 +130,8 @@ class BaseJs {
      * Created by mvthanh (26/12/2020)
      * */
     loadData() {
+        try {
+        
         var fielNames = [];
         var columns = $('table thead th');//lấy số lượng cột th
         var getDataUrl = this.domainNV;
@@ -130,14 +141,18 @@ class BaseJs {
             $('table tbody tr').empty();
             getDataUrl = this.filter;
         }
-        
+        //phân trang
+        if (this.numberPage != '') {
+            $('table tbody tr').empty();
+            getDataUrl = this.numberPage;
+        }
+
         $('#load').show();
         $.ajax({
             url: getDataUrl,
             method: "GET"
         }).done(function (res) {
            
-
             $.each(res, function (index, obj) {
                 
                 var tr = $(`<tr></tr>`);
@@ -177,30 +192,27 @@ class BaseJs {
             $('#load').hide();
         })
         this.filter = '';
+         this.numberPage = '';
+        }
+        catch (e) {
+            console.log(e);
+        }
     }
-    //thực hiện phân trang
+    /**======================================
+    * Hàm chức năng phân trang
+    * Created by mvthanh (19/01/2021)
+    * */
     pagination() {
+       
         $.ajax({
             url: "/api/v1/Customers/count",
             method: "GET"
         }).done(function (res) {
-            
-            console.log(res);
-            var n = res / 10;
-            var pageLeft = `<div class="icon_firstpage"></div>
-                <div class="icon_prevpage"></div>`;
-            var numberPage = ``;
-            var pageRight = `<div class="icon_nextpage"></div>
-                                <div class="icon_lastpage"></div>`;
-            for (var i = 1; i < 4; i++) {
-                numberPage += `<div class="number_page">${i}</div>`;
-            }
-
-            var page = pageLeft + numberPage + pageRight;
-            $('._center').append(page);
-           
+            BaseJs.numberInfor=res;
+            BaseJs.n = Math.ceil(res / 10);
+            updateNumberPage(1, BaseJs.n);
         }).fail(function (res) {
-            alert(res);
+            console.log(res);
         })
     }
 
@@ -323,6 +335,7 @@ class BaseJs {
     btnDblClick(e) {
         var me = this;
         try {
+            $("#datepicker").datepicker();
             //bôi màu vào dòng ấn
             $(e.currentTarget).addClass("row-click");
             //hiển thị nút xóa
@@ -371,7 +384,7 @@ class BaseJs {
                     var value = res[propertieName];
 
                     if (propertieName == "DateOfBirth") {
-                        value = formatYYMMDD(res[propertieName]);//hiển thị dữ liệu lên text datetime
+                        value = formatDate(res[propertieName]);//hiển thị dữ liệu lên text datetime
                     }
 
                     //hiển thị dữ liệu giới tính
@@ -435,5 +448,4 @@ class BaseJs {
             console.log(e);
         }
     }
-
 }

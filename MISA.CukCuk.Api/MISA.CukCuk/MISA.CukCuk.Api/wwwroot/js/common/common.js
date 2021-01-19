@@ -36,16 +36,51 @@ function formatMoney(value) {
  * Created by mvthanh(2020/12/25)
  * @param {any} date tham số có kiểu dữ liệu bất kỳ
  */
-function formatYYMMDD(date) {
-    var d = new Date(date),
-        day = '' + d.getDate(),
-        month = '' + (d.getMonth() + 1),
-        year = d.getFullYear();
+//function formatYYMMDD(date) {
+//    var d = new Date(date),
+//        day = '' + d.getDate(),
+//        month = '' + (d.getMonth() + 1),
+//        year = d.getFullYear();
 
-    if (month.length < 2)
-        month = '0' + month;
-    if (day.length < 2)
-        day = '0' + day;
+//    if (month.length < 2)
+//        month = '0' + month;
+//    if (day.length < 2)
+//        day = '0' + day;
 
-    return [year, month, day].join('-');
+//    return [year, month, day].join('-');
+//}
+/**
+ * update lại số thứ tự trang
+ * Created by mvthanh(19/01/2021)
+ * @param {any} i trang hiện tại
+ * @param {any} n tổng số trang
+ */
+function updateNumberPage(i, n) {
+    var j = 1;
+    var numberPage = ``;
+    for (i; i <= n; i++) {
+        numberPage += `<div class="number_page">${i}</div>`;
+        j++;
+        if (j > 4) {
+            break;
+        }
+    }
+    $('.number').append(numberPage);
+    $('.number_page:first').addClass("number-click");
+}
+
+function viewInforPage(i) {
+    $('.text_left').empty();
+    console.log(BaseJs.n);
+    var numberText = ``;
+    if (i == BaseJs.n) {
+        numberText = 'Hiển thị ' + BaseJs.numberInfor + '/' + BaseJs.numberInfor + ' Khách hàng';
+    } else if(i>1){
+        numberText = 'Hiển thị ' + ((i * 10) - 10) + '-' + (i * 10) + '/' + BaseJs.numberInfor + ' Khách hàng';
+    }
+    else {
+        ////Hiển thị số lượng bản ghi
+        numberText = `Hiển thị 1-10/1000 khách hàng`;
+    }
+    $('.text_left').append(numberText);
 }

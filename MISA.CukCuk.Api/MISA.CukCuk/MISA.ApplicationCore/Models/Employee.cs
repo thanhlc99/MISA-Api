@@ -8,7 +8,7 @@ namespace MISA.ApplicationCore.Models
     /// Bảng nhân viên
     /// </summary>
     /// createdBy: MVThanh(12/01/2021)
-    public class Employee
+    public class Employee : BaseEntiy
     {
         #region Declare
         #endregion
@@ -37,6 +37,29 @@ namespace MISA.ApplicationCore.Models
         /// giới tính
         /// </summary>
         public int Gender { get; set; }
+        /// <summary>
+        /// config giới tính
+        /// </summary>
+        public string GenderName
+        {
+            get
+            {
+                var name = string.Empty;
+                switch (Gender)
+                {
+                    case (int)Enums.Gender.female:
+                        name = Properties.Resources.female;
+                        break;
+                    case (int)Enums.Gender.male:
+                        name = Properties.Resources.male;
+                        break;
+                    case (int)Enums.Gender.other:
+                        name = Properties.Resources.other;
+                        break;
+                }
+                return name;
+            }
+        }
         /// <summary>
         /// Số chứng minh nhân dân/ thẻ căn cước
         /// </summary>
@@ -80,23 +103,7 @@ namespace MISA.ApplicationCore.Models
         /// <summary>
         /// tình trạng công việc
         /// </summary>
-        public string JobStatus { get; set; }
-        /// <summary>
-        /// ngày khởi tạo
-        /// </summary>
-        public DateTime? CreatedDate { get; set; }
-        /// <summary>
-        /// Người khởi tạo
-        /// </summary>
-        public string CreatedBy { get; set; }
-        /// <summary>
-        /// Ngày sửa
-        /// </summary>
-        public DateTime? ModifiedDate { get; set; }
-        /// <summary>
-        /// Người sửa
-        /// </summary>
-        public string ModifiedBy { get; set; }
+        public string WorkStatusName { get; set; }
         #endregion
 
         #region Method

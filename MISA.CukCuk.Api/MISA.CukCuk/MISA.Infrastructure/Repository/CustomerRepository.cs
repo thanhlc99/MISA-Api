@@ -26,8 +26,11 @@ namespace MISA.Infrastructure.Repository
 
         public IEnumerable<Customer> GetCustomerByPage(Pager pager)
         {
-                var results = dbConnection.Query<Customer>($"SELECT * FROM Customer c LIMIT {pager.Offset},{pager.PageSize}", commandType:CommandType.Text);
-                return results;
+            var param = new DynamicParameters();
+            param.Add("@Offset", dbType: DbType.Int32, value:pager.Offset, direction: ParameterDirection.Input);
+            param.Add("@PageSize", dbType: DbType.Int32, value: pager.PageSize, direction: ParameterDirection.Input);
+            var results = dbConnection.Query<Customer>("Proc_GetCustomerByPage", param, commandType:CommandType.StoredProcedure);
+            return results;
         }
 
         public int GetCustomerCount()
@@ -40,11 +43,16 @@ namespace MISA.Infrastructure.Repository
         {
             //build tham số đầu vào cho store
             var input = specs != null ? specs : string.Empty;
+            if (string.IsNullOrEmpty(specs))
+            {
+                var entity = dbConnection.Query<Customer>("Proc_GetCustomers", commandType: CommandType.StoredProcedure).ToList();
+                return entity;
+            }
             var parameters = new DynamicParameters();
             parameters.Add("@CustomerCode", input,DbType.String);
             parameters.Add("@FullName", input,DbType.String);
             parameters.Add("@PhoneNumber", input,DbType.String);
-            var customers = dbConnection.Query<Customer>("Proc_GetCustomerPaging", parameters, commandType: CommandType.StoredProcedure).ToList();
+            var customers = dbConnection.Query<Customer>("Proc_GetCustomerFilter", parameters, commandType: CommandType.StoredProcedure).ToList();
             return customers;
         }
     }

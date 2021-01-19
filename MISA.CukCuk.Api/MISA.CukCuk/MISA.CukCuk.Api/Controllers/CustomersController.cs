@@ -36,7 +36,10 @@ namespace MISA.CukCuk.Api.Controllers
         {
             return Ok(_customerService.GetCustomerByPage(page));
         }
-
+        /// <summary>
+        /// thực hiện lấy số lượng bản ghi
+        /// </summary>
+        /// <returns>tổng số lượng bản ghi</returns>
         [HttpGet("count")]
         public IActionResult GetCountPage()
         {

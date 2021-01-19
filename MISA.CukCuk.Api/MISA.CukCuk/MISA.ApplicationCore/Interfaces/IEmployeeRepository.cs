@@ -5,18 +5,8 @@ using System.Text;
 
 namespace MISA.ApplicationCore.Interfaces
 {
-   public interface IEmployeeRepository
+   public interface IEmployeeRepository:IBaseRepository<Employee>
     {
-        IEnumerable<Employee> GetEmployees();
-
-        Employee GetEmployeeById(Guid employeeId);
-
-        Employee GetEmployeeByCode(string employeeCode);
-
-        int AddEmployee(Employee employee);
-
-        int UpdateEmployee(Employee employee);
-
-        int DeleteEmployee(Guid employeeId);
+       
     }
 }
