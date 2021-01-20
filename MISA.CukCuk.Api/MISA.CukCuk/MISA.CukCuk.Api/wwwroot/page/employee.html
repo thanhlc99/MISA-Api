@@ -6,9 +6,7 @@
     <link href="/lib/jquery-ui-1.12.1.custom/jquery-ui.min.css" rel="stylesheet" />
     <link href="/css/common/main.css" rel="stylesheet" />
     <link href="/css/common/header.css" rel="stylesheet" />
-
-    <link href="/css/common/dungchung.css" rel="stylesheet" />
-
+    <link href="/css/common/dialog.css" rel="stylesheet" />
     <link href="/css/common/navbar.css" rel="stylesheet" />
     <link href="/css/common/input.css" rel="stylesheet" />
     <link href="/css/common/content.css" rel="stylesheet" />
@@ -16,6 +14,7 @@
     <link href="/css/common/button.css" rel="stylesheet" />
     <link href="/css/common/grid.css" rel="stylesheet" />
     <link href="/css/page/employee.css" rel="stylesheet" />
+    <link href="/css/common/drowdown.css" rel="stylesheet" />
 </head>
 <body>
     <!--navbar-->
@@ -111,7 +110,19 @@
         <div class="filter-bar">
             <div class="filter-left">
                 <input class="icon-search input-search" type="text" placeholder="Tìm kiếm theo Mã, Tên khác" />
+
             </div>
+            <div class="filter-center">
+                <select id="PositionGroupName" valueName="PositionGroupId" class="custom" placeholder="Chọn tất cả">
+                </select>
+                <dropdown api="/api/v1/PositionGroups" fieldName="PositionGroupId" valueName="PositionGroupName"></dropdown>
+            </div>
+            <div class="filter-center">
+                <select id="DepartmentGroupName" valueName="DepartmentGroupId" class="custom" placeholder="Chọn tất cả">
+                </select>
+                <dropdown api="/api/v1/DepartmentGroups" fieldName="DepartmentGroupId" valueName="DepartmentGroupName"></dropdown>
+            </div>
+
             <div class="filter-right">
                 <button class=" m-second-button m-btn-refresh">
                 </button>
@@ -175,61 +186,108 @@
                         <input name="ImageFile" id="ufile" type="file" style="display:none; cursor:pointer;" onchange="loadFile(event)" />
                     </div>
                 </div>
-                <div class="m-content_right">
+                <div class="m-content_center">
                     <div class="title_content">A. THÔNG TIN CHUNG</div>
                     <div class="brick"></div>
-                    <div class="conten_top_left">
-                        <div class="m-row">
-                            <p>Mã nhân viên(<span>*</span>)</p>
-                            <input type="text" id="txtCustomerCode" valueName="CustomerCode" required />
-                        </div>
-                        <div class="m-row">
-                            <p>Ngày sinh</p>
-                            <input id="datepicker" valueName="DateOfBirth" format="dd/mm/yyyy" placeholder="_ _/_ _/_ _ _ _" />
-                        </div>
-                        <div class="m-row">
-                            <p>Số CMTND/Căn cước(<span>*</span>)</p>
-                            <input type="text" id="txtMemberCardCode" valueName="MemberCardCode" />
-                        </div>
-                        <div class="m-row">
-                            <p>Nơi cấp</p>
-                            <input type="text" id="txtMemberCardCode" valueName="MemberCardCode" />
-                        </div>
-                        <div class="m-row">
-                            <p>Email</p>
-                            <input type="text" id="txtMemberCardCode" valueName="MemberCardCode" placeholder="example@domain.com" />
+                    <div class="m-row">
+                        <p>Mã nhân viên(<span>*</span>)</p>
+                        <input type="text" id="txtEmployeeCode" valueName="EmployeeCode" required />
+                    </div>
+                    <div class="m-row">
+                        <p>Ngày sinh</p>
+                        <input id="datepicker" valueName="DateOfBirth" format="dd/mm/yyyy" placeholder="_ _/_ _/_ _ _ _" />
+                    </div>
+                    <div class="m-row">
+                        <p>Số CMTND/Căn cước(<span>*</span>)</p>
+                        <input type="text" id="txtIdentityCardNumber" valueName="IdentityCardNumber" />
+                    </div>
+                    <div class="m-row">
+                        <p>Nơi cấp</p>
+                        <input type="text" id="txtPlaceOfIssue" valueName="PlaceOfIssue" />
+                    </div>
+                    <div class="m-row">
+                        <p>Email</p>
+                        <input type="text" id="txtEmail" valueName="Email" placeholder="example@domain.com" />
+                    </div>
+                </div>
+                <div class="m-content_right">
+                    <div class="m-row">
+                        <p>Họ và tên(<span>*</span>)</p>
+                        <input type="text" id="txtFullName" valueName="FullName" required />
+                    </div>
+                    <div class="m-row">
+                        <p>Giới tính</p>
+                        <div class="custom-select">
+                            <select valueName="Gender">
+                                <option value=""></option>
+                                <option value="1">Nam</option>
+                                <option value="0">Nữ</option>
+                                <option value="2">Khác</option>
+                            </select>
                         </div>
                     </div>
-                    <div class="conten_top_right">
-                        <div class="m-row">
-                            <p>Họ và tên(<span>*</span>)</p>
-                            <input type="text" id="txtCustomerCode" valueName="CustomerCode" required />
-                        </div>
-                        <div class="m-row">
-                            <p>Giới tính</p>
-                            <input id="datepicker" valueName="DateOfBirth" format="dd/mm/yyyy" placeholder="_ _/_ _/_ _ _ _" />
-                        </div>
-                        <div class="m-row">
-                            <p>Ngày cấp</p>
-                            <input type="text" id="txtMemberCardCode" valueName="MemberCardCode" />
-                        </div>
-                        <div class="m-row">
-                            <p></p>
-                            <input type="text" id="txtMemberCardCode" valueName="MemberCardCode" />
-                        </div>
-                        <div class="m-row">
-                            <p>Số điện thoại</p>
-                            <input type="text" id="txtMemberCardCode" valueName="MemberCardCode" placeholder="example@domain.com" />
+                    <div class="m-row">
+                        <p>Ngày cấp</p>
+                        <input type="text" id="txtLevelDate" valueName="LevelDate" />
+                    </div>
+                    <div class="m-row-hide">
+
+                    </div>
+                    <div class="m-row">
+                        <p>Số điện thoại(<span>*</span>)</p>
+                        <input type="text" id="txtPhoneNumber" valueName="PhoneNumber" />
+                    </div>
+                </div>
+            </div>
+            <div class="m-content">
+                <div class="m-content_left">
+
+                </div>
+                <div class="m-content_center">
+                    <div class="title_content">B. THÔNG TIN CÔNG VIỆC</div>
+                    <div class="brick color"></div>
+                    <div class="m-row">
+                        <p>Vị trí</p>
+                        <select id="PositionGroupName" valueName="PositionGroupId" class="custom">
+                        </select>
+                        <dropdown api="/api/v1/PositionGroups" fieldName="PositionGroupId" valueName="PositionGroupName"></dropdown>
+                    </div>
+                    <div class="m-row">
+                        <p>Mã số thuế cá nhân</p>
+                        <input type="text" id="txtPersonalTaxCode" valueName="PersonalTaxCode" />
+                    </div>
+                    <div class="m-row">
+                        <p>Ngày gia nhập</p>
+                        <input id="datepicker" valueName="JoinDate" placeholder="_ _/_ _/_ _ _ _" />
+                    </div>
+                </div>
+                <div class="m-content_right">
+                    <div class="m-row">
+                        <p>Phòng ban</p>
+                        <select id="DepartmentGroupName" valueName="DepartmentGroupId" class="custom">
+                        </select>
+                        <dropdown api="/api/v1/DepartmentGroups" fieldName="DepartmentGroupId" valueName="DepartmentGroupName"></dropdown>
+                    </div>
+                    <div class="m-row">
+                        <p>Mức lương cơ bản</p>
+                        <input type="text" id="txtSalary" valueName="Salary" />
+                    </div>  
+                    <div class="m-row">
+                        <p>Tình trạng công việc</p>
+                        <div class="custom-select">
+                            <select valueName="WorkStatus">
+                                <option value=""></option>
+                                <option value="0">Đang làm việc</option>
+                                <option value="1">Đã nghỉ việc</option>
+                            </select>
                         </div>
                     </div>
                 </div>
-
             </div>
-
-            <!--<div class="m-dialog_footer">
+            <div class="m-dialog_footer">
                 <div class="footer_content">
                     <button class="m-btn m-add" id="btnSave">
-                        <div class="icon-add"></div>
+                        <div class="icon-add m-icon-save"></div>
                         <div class="btn-text">Lưu</div>
                     </button>
                 </div>
@@ -237,7 +295,7 @@
                     <button class="btn-no-Icon m-close" id="btnclose">hủy</button>
                     <button class="btn-no-Icon m-delete m-hide" id="btnDelete">Xóa</button>
                 </div>
-            </div>-->
+            </div>
         </div>
     </div>
     <!--==========End dialog add information===========-->
@@ -245,6 +303,7 @@
     <script src="/lib/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
     <script src="/js/common/common.js"></script>
     <script src="/js/common/base.js"></script>
+    <script src="/js/common/drowdown.js"></script>
     <script src="/js/page/employee.js"></script>
 </body>
 </html>
