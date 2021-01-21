@@ -83,11 +83,11 @@ namespace MISA.ApplicationCore.Models
         /// <summary>
         /// Vị trí làm việc trong công ty
         /// </summary>
-        public string PositionName { get; set; }
+        public Guid PositionGroupId { get; set; }
         /// <summary>
         /// Tên phòng ban làm việc
         /// </summary>
-        public string DepartmentName { get; set; }
+        public Guid DepartmentGroupId { get; set; }
         /// <summary>
         /// Mã số thuế cá nhân
         /// </summary>
@@ -103,7 +103,7 @@ namespace MISA.ApplicationCore.Models
         /// <summary>
         /// tình trạng công việc
         /// </summary>
-        public string WorkStatusName { get; set; }
+        public int WorkStatus { get; set; }
         #endregion
 
         #region Method
